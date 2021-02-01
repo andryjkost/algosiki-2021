@@ -14,7 +14,7 @@ initial_path = {}
 # для алгоритма просто запишим список координат
 initial_path_list = []
 # считывыем данные из файла в initial_path
-with open("../ja_1000.txt") as file:
+with open("../instances/ja_1000.txt") as file:
     for line in file:
         if ' ' in line:
             string = line.split()
