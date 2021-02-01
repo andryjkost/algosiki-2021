@@ -1,4 +1,4 @@
-from Iterated_Local_Search import*
+from ILS.Iterated_Local_Search import*
 # функция возврата id по координатам точки
 def get_key(val):
     for key, value in initial_path.items():
@@ -14,7 +14,7 @@ initial_path = {}
 # для алгоритма просто запишим список координат
 initial_path_list = []
 # считывыем данные из файла в initial_path
-with open("ja_1000.txt") as file:
+with open("../ja_1000.txt") as file:
     for line in file:
         if ' ' in line:
             string = line.split()
