@@ -10,11 +10,9 @@ def getInitialSolution(data_matrix, machines_number, details_number):
     rand_details = random.sample(range(1, details_number), 10)
     cluster_1 = {"machines": set(rand_machines), "details": set(rand_details), "data_matrix": data_matrix}
 
-    # cluster_1 = Cluster(rand_machines, rand_details, data_matrix)
     other_machines = set(list(range(1, machines_number + 1))) - set(rand_machines)
     other_details = set(list(range(1, details_number + 1))) - set(rand_details)
     cluster_2 = {"machines": set(other_machines), "details": set(other_details), "data_matrix": data_matrix}
-    # cluster_2 = Cluster(other_machines, other_details, data_matrix)
     init_solution = dict()
     init_solution["clusters_dict"], init_solution["objectiveFunctionValue"], init_solution[
         "numberOfClusters"] = Solution([cluster_1, cluster_2], data_matrix)
@@ -126,7 +124,6 @@ def divide(solution, data_matrix,i):
     details_subcluster_first = set(list(cluster_to_divide["details"])[:detail_id_to_divide])
     first_new_cluster = {"machines": set(machines_subcluster_first), "details": set(details_subcluster_first),
                          "data_matrix": data_matrix}
-    # first_new_cluster = Cluster(machines_subcluster_first, details_subcluster_first, self.data_matrix)
 
     machines_subcluster_second = cluster_to_divide["machines"] - machines_subcluster_first
 
@@ -134,7 +131,7 @@ def divide(solution, data_matrix,i):
 
     second_new_cluster = {"machines": set(machines_subcluster_second), "details": set(details_subcluster_second),
                           "data_matrix": solution["clusters_dict"][0]["data_matrix"]}
-    # second_new_cluster = Cluster(machines_subcluster_second, details_subcluster_second, self.data_matrix)
+
 
     new_cluster_list = deepcopy(solution["clusters_dict"])
     new_cluster_list.pop(cluster_to_divide_id)
@@ -143,7 +140,6 @@ def divide(solution, data_matrix,i):
     new_solution = dict()
     new_solution["clusters_dict"], new_solution["objectiveFunctionValue"], new_solution["numberOfClusters"] = Solution(
         new_cluster_list, solution["clusters_dict"][0]["data_matrix"])
-    # new_solution = Solution(new_cluster_list, self.data_matrix)
     new_solution = local_serch(new_solution, data_matrix)
     return new_solution
 
@@ -159,7 +155,6 @@ def merge(solution, data_matrix,i,j):
 
     newCluster = {"machines": set(new_machines_subcluster), "details": set(new_details_subcluster),
                   "data_matrix": data_matrix}
-    # newCluster = Cluster(new_machines_subcluster, new_details_subcluster, self.data_matrix)
 
     new_clusters_list = deepcopy(solution["clusters_dict"])
     if clusters_to_merge[0] < clusters_to_merge[1]:
@@ -175,7 +170,7 @@ def merge(solution, data_matrix,i,j):
     new_solution["clusters_dict"], new_solution["objectiveFunctionValue"], new_solution["numberOfClusters"] = Solution(
         new_clusters_list, data_matrix)
 
-    # newSolution = Solution(new_clusters_list, self.data_matrix)
+
     new_solution = local_serch(new_solution, data_matrix)
     return new_solution
 
@@ -228,22 +223,17 @@ def relocate_machine_helper(clusters_list, cluster_id_from, cluster_id_to, data_
                             "details": set(cluster_from["details"]),
                             "data_matrix": data_matrix}
 
-        # new_cluster_from = Cluster((cluster_from["machines"] - {machine_to_relocate}), cluster_from["details"],
-        #                            solution["data_matrix"])
 
         new_cluster_to = {"machines": set((cluster_to["machines"] | {machine_to_relocate})),
                           "details": set(cluster_to["details"]),
                           "data_matrix": data_matrix}
 
-        # new_cluster_to = Cluster((cluster_to.machines | {machine_to_relocate}), cluster_to.details,
-        #                          self.data_matrix)
 
         buff_clusters_list.append(new_cluster_from)
         buff_clusters_list.append(new_cluster_to)
         new_solution = dict()
         new_solution["clusters_dict"], new_solution["objectiveFunctionValue"], new_solution[
             "numberOfClusters"] = Solution(buff_clusters_list, data_matrix)
-        # new_solution = Solution(buff_clusters_list, solution.data_matrix)
         solutions_list.append(new_solution)
     return solutions_list
 
@@ -261,7 +251,7 @@ def relocate_detail(solution, data_matrix):
         cluster_id_2 = pair[1]
         solutions_list.extend(relocate_detail_helper(deepcopy(clusters_list), cluster_id_1, cluster_id_2, data_matrix))
     return max(solutions_list, key=lambda x: x["objectiveFunctionValue"])
-    # return max(solutions_list, key=lambda x: x.objectiveFunctionValue)
+
 
 
 def relocate_detail_helper(clusters_list, cluster_id_from, cluster_id_to, data_matrix):
@@ -283,14 +273,12 @@ def relocate_detail_helper(clusters_list, cluster_id_from, cluster_id_to, data_m
                             "details": set((cluster_from["details"] - {detail_to_relocate})),
                             "data_matrix": data_matrix}
 
-        # new_cluster_from = Cluster(cluster_from.machines, cluster_from.details - {detail_to_relocate},
-        #                            self.data_matrix)
+
 
         new_cluster_to = {"machines": set(cluster_to["machines"]),
                           "details": set((cluster_to["details"] | {detail_to_relocate})),
                           "data_matrix": data_matrix}
 
-        # new_cluster_to = Cluster(cluster_to.machines, cluster_to.details | {detail_to_relocate}, self.data_matrix)
 
         buff_clusters_list.append(new_cluster_from)
         buff_clusters_list.append(new_cluster_to)
@@ -299,6 +287,6 @@ def relocate_detail_helper(clusters_list, cluster_id_from, cluster_id_to, data_m
         new_solution["clusters_dict"], new_solution["objectiveFunctionValue"], new_solution[
             "numberOfClusters"] = Solution(buff_clusters_list, data_matrix)
 
-        # new_solution = Solution(buff_clusters_list, self.data_matrix)
+
         solutions_list.append(new_solution)
     return solutions_list
