@@ -25,19 +25,16 @@ def get_value(total_ones,clusters):
 
 
 def is_feasible_solution(clusters_list):
-        #  each cluster must contain at least 1 machine and 1 detail
         for cluster in clusters_list:
             if len(cluster["machines"]) > 0 and len(cluster["machines"]) > 0:
                 pass
             else:
                 return False
-        #  each machine must be assigned to exactly 1 cluster
         for cluster_1 in clusters_list:
             for cluster_2 in clusters_list:
                 if cluster_1 != cluster_2:
                     if len(set(cluster_1["machines"]) & set(cluster_2["machines"])) > 0:
                         return False
-        #  each detail must be assigned to exactly 1 cluster
         for cluster_1 in clusters_list:
             for cluster_2 in clusters_list:
                 if cluster_1 != cluster_2:

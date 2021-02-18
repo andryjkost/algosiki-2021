@@ -43,7 +43,7 @@ def print_solution(solution, machines_number, details_number):
 
 
 if __name__ == '__main__':
-    file_name = 'king30x90'
+    file_name = 'mosier20'
     info = dict()
     machines_number = 0
     details_number = 0
